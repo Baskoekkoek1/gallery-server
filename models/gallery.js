@@ -9,6 +9,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       gallery.belongsTo(models.user);
+      gallery.hasMany(models.painting);
     }
   }
   gallery.init(

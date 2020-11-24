@@ -1,7 +1,5 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
+"use strict";
+const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class painting extends Model {
     /**
@@ -10,14 +8,17 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      painting.belongsTo(models.gallery);
     }
-  };
-  painting.init({
-    apiID: DataTypes.STRING
-  }, {
-    sequelize,
-    modelName: 'painting',
-  });
+  }
+  painting.init(
+    {
+      apiID: DataTypes.STRING,
+    },
+    {
+      sequelize,
+      modelName: "painting",
+    }
+  );
   return painting;
 };
