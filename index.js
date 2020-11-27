@@ -3,6 +3,7 @@ const { PORT } = require("./config/constants");
 const corsMiddleWare = require("cors");
 const authRouter = require("./routers/auth");
 const artistRouter = require("./routers/artists");
+const galleryRouter = require("./routers/galleries");
 
 const app = express();
 
@@ -18,6 +19,7 @@ if (process.env.DELAY) {
 }
 
 app.use("/artists", artistRouter);
+app.use("/galleries", galleryRouter);
 app.use("/", authRouter);
 
 app.listen(PORT, () => {
