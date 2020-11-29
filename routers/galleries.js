@@ -67,4 +67,19 @@ router.post("/:id/add-artwork", authMiddleware, async (req, res, next) => {
   }
 });
 
+router.delete("/:paintingId", async (req, res, next) => {
+  try {
+    const { paintingId } = req.params;
+    const thisPainting = await Painting.findByPk(paintingId);
+    if (!thisPainting) {
+      res.status(404).send("This painting is not found");
+    } else {
+      await thisPainting.destroy();
+      res.json({ message: "Painting deleted", thisPainting });
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;
