@@ -56,7 +56,18 @@ router.post("/signup", async (req, res) => {
 
     const token = toJWT({ userId: newUser.id });
 
-    res.status(201).json({ token, ...newUser.dataValues });
+    const newGallery = await Gallery.create({
+      title: `${newUser.name}'s gallery`,
+      description: `This gallery belongs to: ${newUser.name}`,
+    });
+    res.status(201).json({
+      token,
+      ...newUser.dataValues,
+      gallery: {
+        ...newGallery.dataValues,
+        stories: [],
+      },
+    });
   } catch (error) {
     if (error.name === "SequelizeUniqueConstraintError") {
       return res
@@ -66,6 +77,15 @@ router.post("/signup", async (req, res) => {
     console.log(error);
     return res.status(400).send({ message: "Something went wrong, sorry" });
   }
+});
+
+router.get("/me", authMiddleware, async (req, res) => {
+  const gallery = await Gallery.findOne({
+    where: { userId: req.user.id },
+    include: [Painting],
+  });
+  delete req.user.dataValues["password"];
+  res.status(200).send({ ...req.user.dataValues, gallery });
 });
 
 module.exports = router;
