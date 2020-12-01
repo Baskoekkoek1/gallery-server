@@ -26,6 +26,24 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
+router.patch("/:id", authMiddleware, async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const gallery = await Gallery.findByPk(id);
+    if (gallery.userId !== req.user.id) {
+      return res
+        .status(403)
+        .send("You are not aythorized to change this gallery");
+    }
+
+    const { title, description } = req.body;
+    await gallery.update({ title, description });
+    return res.status(200).send({ gallery });
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.get("/:id/artwork", async (req, res, next) => {
   try {
     const { apiArtworkUrl } = req.query;
