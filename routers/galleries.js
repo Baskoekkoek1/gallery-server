@@ -33,7 +33,7 @@ router.patch("/:id", authMiddleware, async (req, res, next) => {
     if (gallery.userId !== req.user.id) {
       return res
         .status(403)
-        .send("You are not aythorized to change this gallery");
+        .send("You are not authorized to change this gallery");
     }
 
     const { title, description } = req.body;
