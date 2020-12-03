@@ -6,7 +6,7 @@ module.exports = {
       "paintings",
       [
         {
-          apiID: "506c89b2d207d80002001296",
+          apiID: "515b269a223afaab8f000149",
           galleryId: 1,
           createdAt: new Date(),
           updatedAt: new Date(),
